@@ -8,6 +8,7 @@ export function prefetch(): Plugin {
 		apply: 'build',
 
 		transformIndexHtml: (html, ctx) => {
+			const base = '/macos-web/'; // Add your base path here
 			const tags = Object.keys(ctx.bundle)
 				.filter((v) => !v.toString().endsWith('webp'))
 				.map(
@@ -17,7 +18,7 @@ export function prefetch(): Plugin {
 							tag: 'link',
 							attrs: {
 								rel: 'prefetch',
-								href: `/${chunkName}`,
+								href: `${base}${chunkName}`, // Add the base path to the hre
 							},
 						}) as HtmlTagDescriptor,
 				);

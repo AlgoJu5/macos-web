@@ -27,7 +27,7 @@
 	<section class="main-area">
 		<img
 			style:transform={image_transform}
-			src="/app-icons/{app_id}/256.webp"
+			src="/macos-web/app-icons/{app_id}/256.webp"
 			alt="Placeholder App"
 		/>
 
@@ -36,7 +36,7 @@
 		<h1 style:display="flex" style:align-items="center" style:gap="0.5rem">
 			Nothing here yet <img
 				style="height: 1em; width: auto; transform: translateY(0.1em);"
-				src="/emojis/wink.png"
+				src="/macos-web/emojis/wink.png"
 				alt="Wink Emoji"
 			/>
 		</h1>
