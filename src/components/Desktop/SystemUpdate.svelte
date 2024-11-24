@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { untrack } from 'svelte';
+	import { untrack, onDestroy } from 'svelte';
 	import { useRegisterSW } from 'virtual:pwa-register/svelte';
 	import { system_needs_update } from '🍎/state/system.svelte';
 	import SystemDialog from '../SystemUI/SystemDialog.svelte';
 
 	let system_update_dialog = $state<SystemDialog>();
+	let updateInterval;
 
 	// replaced dynamically
 	const build_date = '__DATE__';
@@ -18,9 +19,21 @@
 	const { needRefresh, updateServiceWorker } = useRegisterSW({
 		onRegistered(swr) {
 			console.log(`SW registered: ${swr}`);
+			if (swr) {
+				updateInterval = setInterval(() => {
+					console.log(`checkForUpdates`);
+					swr.update();
+				}, 10 * 1000); // Check for updates every hour
+			}
 		},
 		onRegisterError(error) {
 			console.log('SW registration error', error);
+		},
+		onOfflineReady() {
+			console.log('SW is ready to work offline');
+		},
+		onNeedRefresh() {
+			needRefresh.set(true);
 		},
 	});
 
@@ -44,6 +57,9 @@
 	async function handle_update_app() {
 		updateServiceWorker();
 	}
+
+	// 컴포넌트가 파괴될 때 클린업
+	onDestroy(() => clearInterval(updateInterval));
 </script>
 
 <SystemDialog bind:this={system_update_dialog}>

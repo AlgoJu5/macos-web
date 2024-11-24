@@ -57,6 +57,11 @@ export default defineConfig({
 					},
 				],
 			},
+			registerType: 'prompt',
+			workbox: {
+				clientsClaim: true,
+				skipWaiting: false,
+			},
 		}),
 		imagetools({}),
 	],
